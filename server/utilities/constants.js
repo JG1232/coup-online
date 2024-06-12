@@ -1,26 +1,20 @@
 const CardNames = {
-    DUKE: "duke",
-    ASSASSIN: "assassin",
-    CAPTAIN: "captain",
-    AMBASSADOR: "ambassador",
-    CONTESSA: "contessa",
+    FINANCE: "duke",
+    FORCE: "assassin",
+    SPEC1: "captain",
+    COMM: "ambassador",
+    SPEC2: "contessa",
     values: function () {
-        return [this.DUKE, this.ASSASSIN, this.CAPTAIN, this.AMBASSADOR, this.CONTESSA]
+        return [this.FINANCE, this.FORCE, this.SPEC1, this.COMM, this.SPEC2]
     }
  };
  
-const Actions = {
+const AllActions = {
     income: {
         influence: "all",
         blockableBy: [],
         isChallengeable: false,
         moneyDelta: 1
-    },
-    foreign_aid: {
-        influence: "all",
-        blockableBy: [CardNames.DUKE],
-        isChallengeable: false,
-        moneyDelta: 2
     },
     coup: {
         influence: "all",
@@ -28,36 +22,42 @@ const Actions = {
         isChallengeable: false,
         moneyDelta: -7
     },
-    tax: {
-        influence: CardNames.DUKE,
+    finance1: {
+        influence: CardNames.FINANCE,
         blockableBy: [],
         isChallengeable: true,
         moneyDelta: 3
     },
-    assassinate: {
-        influence: CardNames.ASSASSIN,
-        blockableBy: [CardNames.CONTESSA],
+    force1: {
+        influence: CardNames.FORCE,
+        blockableBy: [CardNames.FORCE],
         isChallengeable: true,
         moneyDelta: -3
     },
-    exchange: {
-        influence: CardNames.AMBASSADOR,
+    comm1: {
+        influence: CardNames.COMM,
         blockableBy: [],
         isChallengeable: true,
         moneyDelta: 0
     },
-    steal: {
-        influence: CardNames.CAPTAIN,
-        blockableBy: [CardNames.AMBASSADOR, CardNames.AMBASSADOR],
+    specInt1: {
+        influence: CardNames.SPEC1,
+        blockableBy: [CardNames.SPEC1, CardNames.COMM],
+        isChallengeable: true,
+        moneyDelta: 2 // EDGE CASE: if victim only has 1 or 0 coins
+    },
+    specInt2: {
+        influence: CardNames.SPEC2,
+        blockableBy: [CardNames.SPEC2, CardNames.COMM],
         isChallengeable: true,
         moneyDelta: 2 // EDGE CASE: if victim only has 1 or 0 coins
     }
 };
 
+const UsedActions = {AllActions[0], AllActions[1], AllActions[2], AllActions[3], AllActions[4]};
+
+/*
 const CounterActions = {
-    block_foreign_aid: {
-        influences: [CardNames.DUKE]
-    },
     block_steal: {
         influences: [CardNames.AMBASSADOR, CardNames.CAPTAIN]
     },
@@ -65,9 +65,9 @@ const CounterActions = {
         influences: [CardNames.CONTESSA]
     },
 };
-
+*/
 module.exports = {
     CardNames: CardNames,
-    Actions: Actions,
+    Actions: UsedActions,
     CounterActions: CounterActions,
 }
